@@ -68,14 +68,15 @@ struct SerialPortBridgeGenericTest : public sofa::testing::BaseTest, SerialPortB
     ///////////////////////////////////////////////////////////////
     // Bring parents members in the current lookup context.
     // more info at: https://gcc.gnu.org/onlinedocs/gcc/Name-lookup.html
-    using SerialPortBridgeGeneric::d_size ;
+    using SerialPortBridgeGeneric::d_sizeOut ;
+    using SerialPortBridgeGeneric::d_sizeIn ;
     using SerialPortBridgeGeneric::d_baudRate ;
     using SerialPortBridgeGeneric::d_precise ;
     using SerialPortBridgeGeneric::d_packetOut ;
+    using SerialPortBridgeGeneric::d_packetIn ;
     using SerialPortBridgeGeneric::d_port ;
     using SerialPortBridgeGeneric::d_header ;
     using SerialPortBridgeGeneric::d_splitPacket ;
-    using SerialPortBridgeGeneric::m_packetOut ;
     using SerialPortBridgeGeneric::d_componentState ;
     ///////////////////////////////////////////////////////////////
 
@@ -98,14 +99,16 @@ struct SerialPortBridgeGenericTest : public sofa::testing::BaseTest, SerialPortB
         EXPECT_TRUE(thisobject->getName() == "myname") ;
 
         /// Some test to check that the parameters are still there.
-        EXPECT_TRUE( thisobject->findData("size") != nullptr ) ;
+        EXPECT_TRUE( thisobject->findData("sizeIn") != nullptr ) ;
+        EXPECT_TRUE( thisobject->findData("sizeOut") != nullptr ) ;
         EXPECT_TRUE( thisobject->findData("precise") != nullptr ) ;
         EXPECT_TRUE( thisobject->findData("baudRate") != nullptr ) ;
         EXPECT_TRUE( thisobject->findData("packetOut") != nullptr ) ;
         EXPECT_TRUE( thisobject->findData("packetIn") != nullptr ) ;
         EXPECT_TRUE( thisobject->findData("port") != nullptr ) ;
 
-        EXPECT_TRUE(thisobject->findData("size")->getValueString()=="0") ;
+        EXPECT_TRUE(thisobject->findData("sizeOut")->getValueString()=="0") ;
+        EXPECT_TRUE(thisobject->findData("sizeIn")->getValueString()=="1") ;
         EXPECT_TRUE(thisobject->findData("precise")->getValueString()=="0");
 
         return ;
@@ -127,7 +130,7 @@ struct SerialPortBridgeGenericTest : public sofa::testing::BaseTest, SerialPortB
 
         helper::WriteAccessor<Data<type::vector<unsigned char>>> packOut = d_packetOut;
         packOut.resize(2);
-        d_size.setValue(0);
+        d_sizeOut.setValue(0);
 
         d_componentState = ComponentState::Valid;
         checkData();
@@ -136,7 +139,7 @@ struct SerialPortBridgeGenericTest : public sofa::testing::BaseTest, SerialPortB
 
 
     void initTest(){
-        d_size.setValue(4);
+        d_sizeOut.setValue(4);
         d_precise.setValue(false);
         d_splitPacket.setValue(false);
 
@@ -148,7 +151,7 @@ struct SerialPortBridgeGenericTest : public sofa::testing::BaseTest, SerialPortB
             EXPECT_EQ(m_packetOut[i],0);
 
 
-        d_size.setValue(3);
+        d_sizeOut.setValue(3);
         d_precise.setValue(true);
         d_splitPacket.setValue(false);
 
@@ -158,7 +161,7 @@ struct SerialPortBridgeGenericTest : public sofa::testing::BaseTest, SerialPortB
         for(unsigned int i=1; i<7; i++)
             EXPECT_EQ(m_packetOut[i],0);
 
-        d_size.setValue(3);
+        d_sizeOut.setValue(3);
         d_precise.setValue(true);
         d_splitPacket.setValue(true);
         init();
@@ -176,7 +179,7 @@ struct SerialPortBridgeGenericTest : public sofa::testing::BaseTest, SerialPortB
 
         WriteAccessor<Data<vector<unsigned char>>> packet = d_packetOut;
 
-        d_size.setValue(4);
+        d_sizeOut.setValue(4);
         d_precise.setValue(false);
         d_splitPacket.setValue(false);
         packet.clear();
@@ -189,7 +192,7 @@ struct SerialPortBridgeGenericTest : public sofa::testing::BaseTest, SerialPortB
             EXPECT_EQ(m_packetOut[i],0);
 
 
-        d_size.setValue(3);
+        d_sizeOut.setValue(3);
         d_precise.setValue(true);
         d_splitPacket.setValue(false);
         packet.clear();

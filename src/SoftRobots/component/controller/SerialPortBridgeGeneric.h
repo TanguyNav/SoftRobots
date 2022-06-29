@@ -86,11 +86,14 @@ public:
     Data<type::vector<unsigned char>> d_packetIn;
 
     Data<type::vector<unsigned char>> d_header;
-    Data<unsigned int>           d_size;
+    Data<unsigned int>           d_size; // Remove in v23.06
+    Data<unsigned int>           d_sizeOut;
+    Data<unsigned int>           d_sizeIn;
     Data<bool>                   d_precise;
     Data<bool>                   d_splitPacket;
     Data<unsigned int>           d_redundancy;
     Data<bool>                   d_doReceive;
+    Data<unsigned int>           d_timeOut;
 
 protected:
 
